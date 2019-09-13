@@ -26,6 +26,7 @@ SetupDevEnvironment()
 
 pacman::p_load("config")
 
+options(warn = 1) # 0 - no warns, 1 - warns, 2 - turn warns to errors
 Main <- function() {
     config::get("corpus")
 }
