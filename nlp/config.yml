@@ -1,4 +1,6 @@
 default:
     corpus:
         uri: "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
+        name: "Coursera-SwiftKey.zip"
+        language: "en_US"
         genres: ["twitter", "blogs", "news"]

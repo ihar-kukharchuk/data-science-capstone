@@ -1,7 +1,8 @@
 # rm(list = ls(all.names = TRUE)) # clean up workspace
 
 CheckPackage <- function(packages) {
-    packages.to.install <- setdiff(packages, rownames(installed.packages()))
+    packages.to.install <-
+        setdiff(packages, rownames(installed.packages()))
     if (length(packages.to.install) > 0) {
         install.packages(packages.to.install)
     }
@@ -27,8 +28,12 @@ SetupDevEnvironment()
 pacman::p_load("config")
 
 options(warn = 1) # 0 - no warns, 1 - warns, 2 - turn warns to errors
+
 Main <- function() {
-    config::get("corpus")
+    config <- config::get()
+    config$settings <-
+        list(layout = list(data = list(root = "data", raw = "raw")))
+    DownloadArtifacts(config)
 }
 
 Main()
