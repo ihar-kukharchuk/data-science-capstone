@@ -1,5 +1,6 @@
 ObtainOriginalTextCorpus <- function(corpus.uri, corpus.path) {
     CreateDirs(dirname(corpus.path))
+    logdebug("start downloading original text corpus", logger="download")
     rc <- download.file(corpus.uri, corpus.path, method = "auto")
     if (rc != 0 || !file.exists(corpus.path)) {
         stop(paste0("unable to obtain original text corpus: ", toString(rc)))

@@ -1,4 +1,9 @@
 default:
+    logging:
+        level: "DEBUG"
+        console: true
+        file: false
+        filename: "nlp-project.log"
     corpus:
         uri: "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
         name: "Coursera-SwiftKey.zip"
