@@ -33,7 +33,7 @@ Main <- function() {
     config <- config::get()
     config$settings <-
         list(layout = list(data = list(root = "data", raw = "raw")))
-    DownloadArtifacts(config)
+    artifacts <- DownloadArtifacts(config)
 }
 
 Main()

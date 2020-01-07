@@ -83,5 +83,12 @@ ObtainCorpusData <- function(config) {
 }
 
 DownloadArtifacts <- function(config) {
+    # corpus section
+    artifacts <- list("corpus" = list())
     corpus.paths <- ObtainCorpusData(config)
+    sapply(config$corpus$genres, function(genre) {
+        artifacts$corpus[[genre]] <<- list("path" = corpus.paths[[genre]])
+    })
+
+    artifacts
 }
