@@ -9,3 +9,5 @@ default:
         name: "Coursera-SwiftKey.zip"
         language: "en_US"
         genres: ["twitter", "blogs", "news"]
+    sample:
+        percent: 0.1

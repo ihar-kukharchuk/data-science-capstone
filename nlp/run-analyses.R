@@ -29,6 +29,7 @@ SetupDevEnvironment()
 
 source("src/R/00-utils.R")
 source("src/R/01-download-artifacts.R")
+source("src/R/02-reshape-corpus.R")
 
 pacman::p_load("config")
 pacman::p_load("logging")
@@ -42,20 +43,24 @@ InitializeLogging <- function(config) {
         addHandler(writeToConsole)
     }
     if (config$file) {
-        addHandler(writeToFile, file=config$filename)
+        addHandler(writeToFile, file = config$filename)
     }
 }
 
 Main <- function() {
+    # config - external params that may be changed
+    # config$settings - internal params/project organization params
+    # artifacts - paths and content of retrieved or processed data items
     config <- config::get()
-
     InitializeLogging(config$logging)
-
-    logdebug("start downloading artifacts", logger="main")
     config$settings <-
-        list(layout = list(data = list(root = "data", raw = "raw")))
-    artifacts <- DownloadArtifacts(config)
-    logdebug("finish downloading artifacts", logger="main")
+        list(layout = list(data = list(
+            root = "data",
+            raw = "raw",
+            tmp = "tmp"
+        )))
+    artifacts <- RetrieveInitialArtifacts(config)
+    artifacts <- SampleTextCorpuses(config, artifacts)
 }
 
 Main()

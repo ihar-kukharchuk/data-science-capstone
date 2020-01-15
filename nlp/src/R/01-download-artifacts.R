@@ -1,6 +1,6 @@
 ObtainOriginalTextCorpus <- function(corpus.uri, corpus.path) {
     CreateDirs(dirname(corpus.path))
-    logdebug("start downloading original text corpus", logger="download")
+    logdebug("start downloading original text corpus", logger = "download")
     rc <- download.file(corpus.uri, corpus.path, method = "auto")
     if (rc != 0 || !file.exists(corpus.path)) {
         stop(paste0("unable to obtain original text corpus: ", toString(rc)))
@@ -83,13 +83,15 @@ ObtainCorpusData <- function(config) {
     corpus.paths
 }
 
-DownloadArtifacts <- function(config) {
-    # corpus section
+RetrieveInitialArtifacts <- function(config) {
+    logdebug("start obtaining artifacts", logger = "download")
+    # add corpus section
     artifacts <- list("corpus" = list())
     corpus.paths <- ObtainCorpusData(config)
     sapply(config$corpus$genres, function(genre) {
-        artifacts$corpus[[genre]] <<- list("path" = corpus.paths[[genre]])
+        artifacts$corpus[[genre]] <<-
+            list("raw.path" = corpus.paths[[genre]])
     })
-
+    logdebug("finish obtaining artifacts", logger = "main")
     artifacts
 }
