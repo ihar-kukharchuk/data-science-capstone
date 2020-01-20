@@ -1,4 +1,4 @@
-source("src/R/00-utils.R")
+source("src/R/misc/utils.R")
 
 test.CreateDirs <- function() {
     RUnit::checkException(CreateDirs(c("/a/b/c", "/a/a/a")))

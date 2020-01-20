@@ -28,7 +28,7 @@ SetupDevEnvironment <- function() {
 SetupDevEnvironment()
 
 source("src/R/misc/settings.R")
-source("src/R/00-utils.R")
+source("src/R/misc/utils.R")
 source("src/R/01-download-artifacts.R")
 source("src/R/02-reshape-corpus.R")
 

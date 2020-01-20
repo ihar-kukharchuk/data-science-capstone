@@ -1,15 +1,15 @@
 pacman::p_load("RUnit")
 
-suite.00.utils <- RUnit::defineTestSuite(
-    "00-utils",
+suite.misc.utils <- RUnit::defineTestSuite(
+    "misc-utils",
     dirs = file.path("tests", "R"),
     testFileRegexp = "^runit.+\\.R",
     testFuncRegexp = "^test.+",
     rngKind = "Marsaglia-Multicarry",
     rngNormalKind = "Kinderman-Ramage"
 )
-result.00.utils <- runTestSuite(suite.00.utils)
-printTextProtocol(result.00.utils)
+result.misc.utils <- runTestSuite(suite.misc.utils)
+printTextProtocol(result.misc.utils)
 
 suite.misc.settings <- RUnit::defineTestSuite(
     "misc-settings",
