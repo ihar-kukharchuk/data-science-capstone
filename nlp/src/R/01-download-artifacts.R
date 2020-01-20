@@ -7,17 +7,10 @@ ObtainOriginalTextCorpus <- function(corpus.uri, corpus.path) {
     }
 }
 
-ConstructOriginalCorpusPath <- function(config) {
-    layout.data <- config$settings$layout$data
-    file.path(layout.data$root, layout.data$raw, config$corpus$name)
-}
-
-ConstructOriginalCorpusPaths <- function(config) {
-    layout.data <- config$settings$layout$data
+ConstructOriginalCorpusPaths <- function(settings, config) {
     corpus.paths <- lapply(config$corpus$genres, function(genre) {
         file.path(
-            layout.data$root,
-            layout.data$raw,
+            GetRawDataPath(settings),
             "final",
             config$corpus$language,
             paste0(config$corpus$language, ".", genre, ".txt")
@@ -27,14 +20,16 @@ ConstructOriginalCorpusPaths <- function(config) {
     corpus.paths
 }
 
-ObtainOriginalCorpus <- function(config) {
+ObtainOriginalCorpus <- function(settings, config) {
     # check if original corpus exists
-    orig.corpus.path <- ConstructOriginalCorpusPath(config)
+    orig.corpus.path <-
+        file.path(GetRawDataPath(settings), config$corpus$name)
     if (!file.exists(orig.corpus.path)) {
         ObtainOriginalTextCorpus(config$corpus$uri, orig.corpus.path)
     }
     # check if original corpus was unpacked
-    orig.corpus.paths <- ConstructOriginalCorpusPaths(config)
+    orig.corpus.paths <-
+        ConstructOriginalCorpusPaths(settings, config)
     if (!all(sapply(orig.corpus.paths, file.exists))) {
         paths <- unzip(orig.corpus.path, exdir = dirname(orig.corpus.path))
         if (length(paths) <= 0) {
@@ -48,12 +43,10 @@ ObtainOriginalCorpus <- function(config) {
     })
 }
 
-ConstructCorpusPaths <- function(config) {
-    layout.data <- config$settings$layout$data
+ConstructCorpusPaths <- function(settings, config) {
     corpus.paths <- lapply(config$corpus$genres, function(genre) {
         file.path(
-            layout.data$root,
-            layout.data$raw,
+            GetRawDataPath(settings),
             paste0(config$corpus$language, ".", genre, ".txt")
         )
     })
@@ -61,8 +54,8 @@ ConstructCorpusPaths <- function(config) {
     corpus.paths
 }
 
-ObtainCorpusData <- function(config) {
-    corpus.paths <- ConstructCorpusPaths(config)
+ObtainCorpusData <- function(settings, config) {
+    corpus.paths <- ConstructCorpusPaths(settings, config)
     # check if corpus files exist
     if (!all(sapply(corpus.paths, file.exists))) {
         # check if archive corpus files exist
@@ -72,7 +65,7 @@ ObtainCorpusData <- function(config) {
             })
         if (!all(sapply(corpus.archive.paths, file.exists))) {
             # this branch is almost never going to happen
-            ObtainOriginalCorpus(config)
+            ObtainOriginalCorpus(settings, config)
         } else {
             # unpack archives
             sapply(corpus.archive.paths, function(corpus.path) {
@@ -83,11 +76,11 @@ ObtainCorpusData <- function(config) {
     corpus.paths
 }
 
-RetrieveInitialArtifacts <- function(config) {
+RetrieveRawDataArtifacts <- function(settings, config) {
     logdebug("start obtaining artifacts", logger = "download")
     # add corpus section
     artifacts <- list("corpus" = list())
-    corpus.paths <- ObtainCorpusData(config)
+    corpus.paths <- ObtainCorpusData(settings, config)
     sapply(config$corpus$genres, function(genre) {
         artifacts$corpus[[genre]] <<-
             list("raw.path" = corpus.paths[[genre]])

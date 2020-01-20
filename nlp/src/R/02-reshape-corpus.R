@@ -39,13 +39,10 @@ SampleTextCorpus <- function(in.path, out.path, percent) {
     }
 }
 
-SampleTextCorpuses <- function(config, artifacts) {
+SampleTextCorpuses <- function(settings, config, artifacts) {
     logdebug("sampling text corpuses", logger = "sample")
-    tmp.path <- file.path(
-        config$settings$layout$data$root,
-        config$settings$layout$data$tmp,
-        paste0("sample-", config$sample$percent / 100)
-    )
+    tmp.path <- file.path(GetTmpDataPath(settings),
+                          paste0("sample-", config$sample$percent / 100))
     sapply(config$corpus$genres, function(genre) {
         in.path <- artifacts$corpus[[genre]]$raw.path
         out.path <- file.path(tmp.path, basename(in.path))

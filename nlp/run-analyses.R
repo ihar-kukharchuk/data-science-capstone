@@ -27,6 +27,7 @@ SetupDevEnvironment <- function() {
 }
 SetupDevEnvironment()
 
+source("src/R/misc/settings.R")
 source("src/R/00-utils.R")
 source("src/R/01-download-artifacts.R")
 source("src/R/02-reshape-corpus.R")
@@ -49,18 +50,13 @@ InitializeLogging <- function(config) {
 
 Main <- function() {
     # config - external params that may be changed
-    # config$settings - internal params/project organization params
-    # artifacts - paths and content of retrieved or processed data items
     config <- config::get()
+    # settings - internal params/project organization params
+    settings <- Settings(NULL, NULL, NULL)
     InitializeLogging(config$logging)
-    config$settings <-
-        list(layout = list(data = list(
-            root = "data",
-            raw = "raw",
-            tmp = "tmp"
-        )))
-    artifacts <- RetrieveInitialArtifacts(config)
-    artifacts <- SampleTextCorpuses(config, artifacts)
+    # artifacts - paths and content of retrieved or processed data items
+    artifacts <- RetrieveRawDataArtifacts(settings, config)
+    artifacts <- SampleTextCorpuses(settings, config, artifacts)
 }
 
 Main()
