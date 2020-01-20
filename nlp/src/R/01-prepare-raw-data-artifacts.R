@@ -76,7 +76,7 @@ ObtainCorpusData <- function(settings, config) {
     corpus.paths
 }
 
-RetrieveRawDataArtifacts <- function(settings, config) {
+PrepareRawDataArtifacts <- function(settings, config) {
     logdebug("start obtaining artifacts", logger = "download")
     # add corpus section
     artifacts <- list("corpus" = list())

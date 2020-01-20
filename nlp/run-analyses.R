@@ -29,7 +29,7 @@ SetupDevEnvironment()
 
 source("src/R/misc/settings.R")
 source("src/R/misc/utils.R")
-source("src/R/01-download-artifacts.R")
+source("src/R/01-prepare-raw-data-artifacts.R")
 source("src/R/02-reshape-corpus.R")
 
 pacman::p_load("config")
@@ -55,7 +55,7 @@ Main <- function() {
     settings <- Settings(NULL, NULL, NULL)
     InitializeLogging(config$logging)
     # artifacts - paths and content of retrieved or processed data items
-    artifacts <- RetrieveRawDataArtifacts(settings, config)
+    artifacts <- PrepareRawDataArtifacts(settings, config)
     artifacts <- SampleTextCorpuses(settings, config, artifacts)
 }
 
